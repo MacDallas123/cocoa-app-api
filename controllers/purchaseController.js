@@ -31,10 +31,10 @@ exports.get = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
-    const { quantity, price, date, producerCode, cooperativeId } = req.body;
+    const { quantity, price, date, userCode, cooperativeId } = req.body;
     try {
         //const userId = req.userData.userId;
-        const purchase = await Purchase.create({ quantity, price, date, producerCode, cooperativeId });
+        const purchase = await Purchase.create({ quantity, price, date, userCode, cooperativeId });
         
         res.status(201).json({ message: "Achat créé avec succès", "purchase": purchase });
     } catch(err) {
@@ -48,7 +48,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
     
     const { id } = req.params;
-    const { quantity, price, date, producerCode, cooperativeId } = req.body;
+    const { quantity, price, date, userCode, cooperativeId } = req.body;
 
     try {
         const purchase = await Purchase.findOne({ where: { "id": id }});
@@ -58,7 +58,7 @@ exports.update = async (req, res) => {
             if(quantity != null) purchase.quantity = quantity;
             if(price != null) purchase.price = price;
             if(date != null) purchase.date = date;
-            if(producerCode != null) purchase.producerCode = producerCode;
+            if(userCode != null) purchase.userCode = userCode;
             if(cooperativeId != null) purchase.cooperativeId = cooperativeId;
 
             purchase.save();

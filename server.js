@@ -9,22 +9,29 @@ const plotRoutes = require("./routes/plot");
 const db = require("./db");
 const sequelize = require("./sequelize");
 const { importDatas } = require('./import_xlsx');
+const path = require("path");
+const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
+app.use(cors({
+  origin: '*',  // Autoriser toutes les origines
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
+
 // create App Database if not exists
-db.createDb("cacaoapp");
+await db.createDb("cacaoapp");
 
 // Synchroniser les modèles avec la base de données
-sequelize.sync({force: true})
+/*sequelize.sync({force: true})
 .then(async () => {
   console.log("Les tables ont été synchronisées");
   await importDatas();
 })
-.catch((err) => console.log("Erreur : " + err));
+.catch((err) => console.log("Erreur : " + err));*/
 
 // Importer les données excels
 
@@ -47,6 +54,10 @@ app.use(`${routeHead}/purchases`, purchaseRoutes);
 app.use(`${routeHead}/sales`, saleRoutes);
 
 app.use(`${routeHead}/plots`, plotRoutes);
+
+// share resources via any route
+app.use(`${routeHead}/static`, express.static(path.join(__dirname, "resources/tiles/Mapnik")));
+//console.log(path.join(__dirname, "resources/tiles/Mapnik"));
 
 app.listen(port, () => {
   console.log(`L'API est disponible via http://localhost:${port}`);
