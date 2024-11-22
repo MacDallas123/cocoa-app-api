@@ -3,8 +3,8 @@ const { Cooperative } = require('../models/models');
 
 exports.all = async (req, res) => {
     try {
-        const cooperative = await Cooperative.findAll({ order: [['name', 'ASC']] });
-        res.status(200).json(cooperative);
+        const cooperatives = await Cooperative.findAll({ order: [['name', 'ASC']] });
+        res.status(200).json(cooperatives);
     } catch (err) {
         res.status(500).json({
             message : err.message

@@ -3,8 +3,8 @@ const { Plot } = require('../models/models');
 
 exports.all = async (req, res) => {
     try {
-        const plot = await Plot.findAll();
-        res.status(200).json(plot);
+        const plots = await Plot.findAll();
+        res.status(200).json(plots);
     } catch (err) {
         res.status(500).json({
             message : err.message
