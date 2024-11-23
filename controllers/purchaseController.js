@@ -30,6 +30,14 @@ exports.get = async (req, res) => {
     }
 }
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res
+ * 
+ * quantity (kg)
+ * price (XAF) 
+ */
 exports.create = async (req, res) => {
     const { quantity, price, date, userCode, cooperativeId } = req.body;
     try {

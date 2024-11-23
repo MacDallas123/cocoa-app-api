@@ -23,7 +23,9 @@ app.use(cors({
 }));
 
 // create App Database if not exists
-await db.createDb("cacaoapp");
+(async function(){
+  db.createDb("cacaoapp");
+})();
 
 // Synchroniser les modèles avec la base de données
 /*sequelize.sync({force: true})
@@ -47,7 +49,7 @@ app.use(`${routeHead}/users`, userRoutes);
 
 app.use(`${routeHead}/cooperatives`, cooperativeRoutes);
 
-app.use(`${routeHead}/exporter`, exporterRoutes);
+app.use(`${routeHead}/exporters`, exporterRoutes);
 
 app.use(`${routeHead}/purchases`, purchaseRoutes);
 

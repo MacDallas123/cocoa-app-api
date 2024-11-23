@@ -17,7 +17,7 @@ exports.get = async (req, res) => {
     const { code } = req.params;
 
     try {
-        const user = await User.findOne({ where: {'code': code} });
+        const user = await User.findOne({ where: { 'code': code } });
 
         if(user == null)
         {
@@ -102,7 +102,7 @@ exports.deleteAccount = async (req, res) => {
     try {
         const userCode = req.userData.userCode;
 
-        const deletedUser = await User.destroy({ where: { "code": userCofr }});
+        const deletedUser = await User.destroy({ where: { "code": userCode }});
 
         if(deletedUser > 0)
         {
