@@ -10,7 +10,12 @@ exports.register = async (req, res) => {
     
     res.status(201).json({
       message: "Utilisateur créé avec succès",
-      user: newUser
+      user: {
+        "code": newUser.code,
+        "username": newUser.username,
+        "email": newUser.email,
+        "phone": newUser.phone
+      }
     });
   } catch (err) {
     res.status(400).json({
@@ -37,12 +42,33 @@ exports.login = async (req, res) => {
 
     // Génère un token JWT avec l'ID de l'utilisateur
     const token = jwt.sign(
-      { id: user.id, username: user.username }, // Payload du token
+      { code: user.code, username: user.username }, // Payload du token
       process.env.JWT_SECRET, // Clé secrète pour signer le token
       { expiresIn: '15d' } // Durée de validité du token
     );
 
+    res.cookie("token", token, {
+      maxAge: 15 * 24 * 3600,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'Strict'
+    });
+
     res.status(200).json({ message: 'Connexion réussie', user, token });
+  } catch (err) {
+    res.status(400).json({ message: "Une erreur s'est produite pendant la connexion", error: err.message });
+  }
+}
+
+exports.logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'Strict'
+    });
+
+    res.status(200).json({ message: 'Déconnexion...' });
   } catch (err) {
     res.status(400).json({ message: "Une erreur s'est produite pendant la connexion", error: err.message });
   }
