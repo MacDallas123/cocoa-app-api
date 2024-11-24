@@ -58,7 +58,7 @@ app.use(`${routeHead}/sales`, saleRoutes);
 app.use(`${routeHead}/plots`, plotRoutes);
 
 // share resources via any route
-app.use(`${routeHead}/static`, express.static(path.join(__dirname, "resources/tiles/Mapnik")));
+app.use(`${routeHead}/static`, express.static(path.join(__dirname, "resources/geojson")));
 //console.log(path.join(__dirname, "resources/tiles/Mapnik"));
 
 app.listen(port, () => {
