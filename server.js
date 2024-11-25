@@ -17,10 +17,13 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
-app.use(cors({
-  origin: '*',  // Autoriser toutes les origines
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
-}));
+let corsOptions = {
+    credentials: true,
+    origin: 'http://localhost:3000',   
+    //origin: 'https://mimlyricstest5.onrender.com', 
+    method: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']   
+}
+app.use(cors(corsOptions));
 
 // create App Database if not exists
 (async function(){
