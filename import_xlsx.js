@@ -50,8 +50,11 @@ exports.importDatas = async () => {
                 email = "admin@gmail.com";
                 phone = "654823040";
             }*/
-
-            let user = await User.create({ code, username, email, phone, password });
+            //let user = await User.create({ code, username, email, phone, password });
+            let user = await User.findOrCreate({
+                where: { code },
+                defaults: { code, username, email, phone, password }
+            });
             i++;
 
             //console.log({ "user": user });
@@ -67,7 +70,7 @@ exports.importDatas = async () => {
             let fArea = "";
             areas.forEach((a) => {
                 if(a != null && a != undefined)
-                    fArea += `${a}, `;
+                    fArea += `${a}`;
             });
 
             // Lieux dits
@@ -75,7 +78,7 @@ exports.importDatas = async () => {
             let fLocation = "";
             locations.forEach((l) => {
                 if(l != null && l != undefined)
-                    fLocation += `${l}, `;
+                    fLocation += `${l}`;
             });
 
             let plot = await Plot.create({ code: e["CODE_PARCELLE"],
@@ -85,8 +88,8 @@ exports.importDatas = async () => {
                 village: e["VILLAGE"],
                 area: fArea,
                 location: fLocation,
-                xCoord: e["X"],
-                yCoord: e["Y"],
+                /*xCoord: e["X"],
+                yCoord: e["Y"],*/
                 plantingAge: e["AGE MOYENNE DE LA PLANTATION"],
                 plantsNumber: e["NOMBRE MOYEN DE PLANTS"],
                 productionPerYear: e["PRODUCTION MOYENNE PAR AN"],
