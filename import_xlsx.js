@@ -50,8 +50,11 @@ exports.importDatas = async () => {
                 email = "admin@gmail.com";
                 phone = "654823040";
             }*/
-
-            let user = await User.create({ code, username, email, phone, password });
+            //let user = await User.create({ code, username, email, phone, password });
+            let user = await User.findOrCreate({
+                where: { code },
+                defaults: { code, username, email, phone, password }
+            });
             i++;
 
             //console.log({ "user": user });

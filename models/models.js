@@ -105,8 +105,8 @@ const Plot = sequelize.define("plot", {
     code: {
         type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true,
-        autoIncrement: false
+        //primaryKey: true,
+        //autoIncrement: false
     },
     region: {
         type: DataTypes.STRING,

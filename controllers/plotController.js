@@ -141,6 +141,34 @@ exports.update = async (req, res) => {
     }
 }
 
+exports.updateCoords = async (req, res) => {
+    
+    const { code } = req.params;
+    const { xCoord,
+            yCoord,
+            userCode } = req.body;
+
+    try {
+        const plot = await Plot.findOne({ where: { "code": code, "userCode": userCode }});
+        
+        if(plot != null)
+        {
+            if(xCoord != null) plot.xCoord = xCoord;
+            if(yCoord != null) plot.yCoord = yCoord;
+
+            plot.save();
+        
+            res.status(200).json({ message: "Coordonnées modifiées avec succès", "plot": plot });
+        } else {
+            return res.status(404).json({ message: "Parcelle inexistante" });
+        }
+    } catch(err) {
+        res.status(500).json({
+            message : err.message
+        });
+    }
+}
+
 exports.delete = async (req, res) => {
 
     const { code } = req.params;
