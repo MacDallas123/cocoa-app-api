@@ -19,8 +19,8 @@ app.use(express.json());
 
 let corsOptions = {
     credentials: true,
-    origin: 'http://localhost:3000',   
-    //origin: 'https://mimlyricstest5.onrender.com', 
+    origin: 'https://tracecocoa-api.onrender.com',   
+    //origin: 'http://localhost:3000', 
     method: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']   
 }
 app.use(cors(corsOptions));
