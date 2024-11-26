@@ -1,5 +1,5 @@
 const { faker } = require('@faker-js/faker');
-const { User, Cooperative, Plot } = require('./models/models');
+const { User, Cooperative, Plot, Exporter } = require('./models/models');
 const xlsx = require("xlsx");
 
 
@@ -16,16 +16,21 @@ exports.importDatas = async () => {
         const data = xlsx.utils.sheet_to_json(sheet);
         
         //console.log(data);
-        
         // Sauvegarder les cooperatives
-        let uniqueList = new Set();
-        data.forEach((e) => {
-            if(e["COOPERATIVE"] != null && e["COOPERATIVE"] != undefined)
-                uniqueList.add(e["COOPERATIVE"]);
+        let uniqueCoopsList = new Set();
+        let uniqueExpList = new Set();
+        for(let j = 1; j < 6; j++)
+        {
+            uniqueCoopsList.add(`COOPERATIVE ${j}`);
+            uniqueExpList.add(`EXPORTATEUR ${j}`);
+        }
+
+        uniqueCoopsList.forEach((e) => {
+            Cooperative.create({ name: e });
         });
 
-        uniqueList.forEach((e) => {
-            Cooperative.create({ name: e });
+        uniqueExpList.forEach((e) => {
+            Exporter.create({ name: e });
         });
 
         let i = 0;
@@ -59,9 +64,9 @@ exports.importDatas = async () => {
 
             //console.log({ "user": user });
             // id cooperative
-            let cooperative = null;
+            /*let cooperative = null;
             if(e["COOPERATIVE"] != null && e["COOPERATIVE"] != undefined)
-                cooperative = await Cooperative.findOne({ where: { name: e["COOPERATIVE"] } });
+                cooperative = await Cooperative.findOne({ where: { name: e["COOPERATIVE"] } });*/
 
             // Save Parcelle
 
@@ -98,7 +103,7 @@ exports.importDatas = async () => {
                 fertilizer: e["ENGRAIS UTILISES"],
                 fYearUseFrequency: e["FREQUENCE D'UTILISATION D'ENGRAIS PAR AN"],
                 difficulties: e["DIFFICULTES RENCONTRES"],
-                cooperativeId: ( cooperative == undefined || cooperative == null) ? null : cooperative.id,
+                //cooperativeId: ( cooperative == undefined || cooperative == null) ? null : cooperative.id,
                 userCode: e["CODE_PRODUCTEUR"]
             });
         });
